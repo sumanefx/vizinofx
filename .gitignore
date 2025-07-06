@@ -1,0 +1,16 @@
+# dependencies
+node_modules
+/.pnp
+.pnp.js
+
+/.cache
+/build
+.env
+
+.DS_Store
+
+# Supabase
+supabase/.temp
+
+# netlify
+.netlify
