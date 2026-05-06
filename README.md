@@ -1,62 +1,120 @@
-# Welcome to Remix Admin Template!
+# Sparlex Store
 
-**View demo:** [https://remix-admin-template.netlify.app/](https://remix-admin-template.netlify.app/)
+A complete premium Telegram SRC Store Bot built with **Node.js 22.5+**, **Telegraf**, built-in **SQLite** (`node:sqlite`), **dotenv**, and **Express**. The bot sells SRC files, bot source codes, website source codes, scripts, tools, ZIP files, and other digital products directly inside Telegram.
 
-The Remix Supabase starter demonstrates how to integrate **Supabase** into an Remix project deployed on Netlify.
+## Features
 
-## Deploying to Netlify
+- Phone verification with Telegram contact request before any feature is available.
+- Modern inline Telegram UI with clean navigation and message cleanup.
+- SQLite wallet system with admin-approved deposits using Node's built-in `node:sqlite` module.
+- UPI payment proof flow: amount, UTR / transaction ID, screenshot, pending review.
+- Hidden Telegram admin panel via `/sparlexadmin`.
+- Admin deposit approval/rejection with user notifications.
+- Category and product management from Telegram.
+- Telegram file/document upload for automatic product delivery using `file_id`.
+- Purchase flow with wallet deduction, order IDs like `ORD1001`, and instant delivery.
+- Manual delivery status support for products that require admin handling.
+- My Orders and detailed order tracking.
+- Profile page with balance, deposits, referrals, and order stats.
+- One-time redeem/coupon system with usage limits.
+- Referral links and 10% referral deposit commission.
+- Leaderboards for buyers, spenders, and referrers.
+- Broadcast messages to verified users.
+- Settings editor for UPI, support, proofs channel, and WhatsApp from Telegram.
+- Express keep-alive endpoint for hosting checks.
 
-If you click "Deploy to Netlify" button, it will create a new repo for you that looks exactly like this one, and sets that repo up immediately for deployment on Netlify.
+## Required Environment Variables
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/remix-admin-template&fullConfiguration=true)
+Create a `.env` file in the project root:
 
-### Set up the database
-
-To use this template, you’ll need to set up and seed a new Supabase database.
-
-1. Create a new Supabase project.
-2. Run the SQL commands found in the `supabase/migrations` directory in the Supabase UI.
-3. To seed the database with data, you can import the contents of the `supabase/seed.csv` file in the Supabase UI.
-
-ℹ️ _Note: This template was created to be used with the Supabase extension for Netlify. If you don’t wish to use the Netlify Supabase extension, you will need to set the `SUPABASE_DATABASE_URL` and `SUPABASE_ANON_KEY` environment variables in the `.env` file._
-
-## Development
-
-Run the dev server:
-
-```shellscript
-npm run dev
+```env
+BOT_TOKEN=
+ADMIN_ID=
+UPI_ID=sumaneffx@axl
+TELEGRAM_SUPPORT=https://t.me/sparlexhun
+PROOF_CHANNEL=https://t.me/sparlexapi
+WHATSAPP_NUMBER=919907517919
+PORT=3000
 ```
 
-## Deployment
+- `BOT_TOKEN`: Telegram bot token from BotFather.
+- `ADMIN_ID`: Numeric Telegram user ID of the store admin.
+- `UPI_ID`: UPI ID shown during insufficient balance/add balance flows.
+- `TELEGRAM_SUPPORT`: Official Telegram support link.
+- `PROOF_CHANNEL`: Sales proof channel link. The Proofs button opens this only.
+- `WHATSAPP_NUMBER`: WhatsApp support number without `+`.
+- `PORT`: Express keep-alive server port.
 
-First, build your app for production:
+## Install
 
-```sh
-npm run build
+Use Node.js 22.5+ because this bot uses the built-in `node:sqlite` module instead of the native `sqlite3` npm package.
+
+```bash
+npm install telegraf dotenv express
 ```
 
-Then run the app in production mode:
+## Run
 
-```sh
+```bash
+node index.js
+```
+
+Or:
+
+```bash
 npm start
 ```
 
-Now you'll need to pick a host to deploy it to.
+The Express keep-alive server responds at:
 
-### DIY
+```text
+GET / -> Sparlex Store Bot Online
+```
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+## User Flow
 
-Make sure to deploy the output of `npm run build`
+1. User starts the bot with `/start`.
+2. If not verified, the bot only shows `📱 Share My Number`.
+3. After sharing their Telegram contact, the user enters the main store menu.
+4. Users can add wallet balance, submit proof, shop by category, buy products, track orders, redeem codes, invite referrals, and contact support.
+5. Digital files are delivered directly as Telegram documents when products are configured for auto delivery.
 
-- `build/server`
-- `build/client`
+## Admin Panel
 
-## Styling
+Open the hidden admin panel with:
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+```text
+/sparlexadmin
+```
 
-## Support
+Only `ADMIN_ID` can access it. Other users receive:
 
-If you get stuck along the way, get help in our [support forums](https://answers.netlify.com/).
+```text
+❌ You are not authorized.
+```
+
+Admin tools include:
+
+- Users: view/search users, see phone and Telegram ID, open chat, ban/unban.
+- Add Balance: manually credit a user wallet.
+- Deposits: approve/reject UPI proofs.
+- Categories: add, rename, toggle, delete categories.
+- Store: add, toggle, delete products, edit price, replace delivery file.
+- Orders: view, mark delivered, delete orders.
+- Coupons: create/delete redeem codes.
+- Broadcast: send messages to verified users.
+- Leaderboard: admin leaderboard view.
+- Settings: update UPI/support/proof/WhatsApp values.
+
+## Hosting Notes
+
+Replit free projects may sleep when inactive, which can stop long polling bots until the repl wakes again.
+
+Best 24/7 hosting options:
+
+- Railway
+- Render
+- Paid Replit Deployments
+- VPS
+
+For production, use a stable always-on Node.js host and keep the `.env` values private.
